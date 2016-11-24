@@ -1,28 +1,30 @@
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
 
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginData {
+	private static 	String loginpath;
 	private String username;
 	private String password;
 	private String sessionToken;
 
+	private static void SetLoginPath(String configPath) throws Exception{
+		JSONObject temp = MyJsonFileParser.JsonFromFile(configPath);
+		loginpath = temp.getString("loginpath");
+		
+	}
 	public LoginData(String uname, String pswd) {
 		this.username = uname;
 		this.password = pswd;
@@ -85,7 +87,12 @@ public class LoginData {
 	}
 
 	public int Login() throws Exception {
-		String urlpath = "http://5.159.235.37:5001/login";
+		try{
+			LoginData.SetLoginPath("config.json");
+		}
+		catch (Exception ex){
+			return 0;
+		}
 		JSONObject jsonParam = new JSONObject();
 		jsonParam.put("username", this.username);
 		jsonParam.put("password", this.password);
@@ -94,7 +101,7 @@ public class LoginData {
 
 		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		try {
-			HttpPost request = new HttpPost(urlpath);
+			HttpPost request = new HttpPost(LoginData.loginpath);
 			StringEntity params = new StringEntity(jsonParam.toString());
 			request.addHeader("content-type", "application/json");
 			request.setEntity(params);

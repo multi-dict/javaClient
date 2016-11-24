@@ -10,6 +10,10 @@ import javax.swing.JTextField;
 
 
 public class LoginFrame extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JTextField userNameTextField;
 	public JTextField passwordTextField;
 	public JLabel errorLabel;
