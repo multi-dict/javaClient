@@ -10,7 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Dictionary {
-	public static String getDictPath;
+	public static String dictPath;
 	private String name;
 	private ArrayList<Language> languages;
 	private int id;
@@ -22,9 +22,10 @@ public class Dictionary {
 	}
 
 	private static void SetGetDictionariesPath(LoginData user) throws Exception {
-		getDictPath = "http://" + Application.baseURL + "/dictionaries?session_token=" + user.GetSessionID();
+		dictPath = "http://" + Application.baseURL + "/dictionaries?session_token=" + user.GetSessionID();
 	}
-	public static ArrayList<Dictionary> GetDictionaries(JSONObject json) throws Exception{
+	
+	private static ArrayList<Dictionary> GetDictionaries(JSONObject json) throws Exception{
 		ArrayList<Dictionary> result = new ArrayList<Dictionary>();
 		JSONArray jsonarray = json.getJSONArray("dictionaries");
 		String tempname;
@@ -34,19 +35,20 @@ public class Dictionary {
 		    JSONObject row = jsonarray.getJSONObject(i);
 		    tempname = row.getString("name");
 		    tempid = row.getInt("id");
-		    JSONArray langarray = row.getJSONArray("langauges");
+		    JSONArray langarray = row.getJSONArray("languages");
 		    templang = Language.GetLanguagesFromJsonArray(langarray);
 		    result.add(new Dictionary(tempname,tempid,templang));
 		}
 		return result;
 
 	}
+	
 	public static ArrayList<Dictionary> GetDictionaries(LoginData user) throws Exception {
 		SetGetDictionariesPath(user);
 		Dictionary.SetGetDictionariesPath(user);
 		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
-		HttpGet request = new HttpGet(Dictionary.getDictPath);
+		HttpGet request = new HttpGet(Dictionary.dictPath);
 		request.addHeader("content-type", "application/json");
 
 		HttpResponse response = httpClient.execute(request);
@@ -65,9 +67,10 @@ public class Dictionary {
 
 		}
 		else {
-
+			return null;
 		}
-
-		return new ArrayList<Dictionary>();
+	}
+	public String toString(){
+		return this.name;
 	}
 }

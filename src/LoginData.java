@@ -77,4 +77,7 @@ public class LoginData {
 	public Permissions GetPermissions() {
 		return this.permissions;
 	}
+	public String GetName(){
+		return this.username;
+	}
 }

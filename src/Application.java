@@ -2,6 +2,7 @@ import org.json.JSONObject;
 
 public class Application {
 	public static String baseURL;
+	public static LoginData user;
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {	
 		int errorCode = 0;
