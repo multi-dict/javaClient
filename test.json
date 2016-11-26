@@ -1,0 +1,14 @@
+{
+  "permissions": [
+    {
+      "name": "Can add Word",
+      "codename": "add_word"
+    },
+    {
+      "name": "Can change Word",
+      "codename": "change_word"
+    }
+  ],
+  "is_superuser": 0,
+  "session_token": "2d4a75e4f3ad4939a04c5da1f666e89b"
+}
