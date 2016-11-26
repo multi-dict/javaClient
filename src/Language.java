@@ -16,16 +16,30 @@ public class Language {
 	}
 	public static ArrayList<Language> GetLanguagesFromJsonArray(JSONArray langarray) throws JSONException {
 		ArrayList<Language> result = new ArrayList<Language>();
-		int tempid;
-		String tempiso;
-		String tempname;
 		for (int i = 0; i < langarray.length(); i++) {
 		    JSONObject row = langarray.getJSONObject(i);
-		    tempid = row.getInt("id");
-		    tempiso = row.getString("ISO_2");
-		    tempname = row.getString("name");
-		    result.add(new Language(tempname, tempiso, tempid));
+		    result.add(new Language(row));
 		}
 		return result;
+	}
+	public Language (JSONObject obj){
+	    try {
+			this.id = obj.getInt("id");
+		    this.iso2 = obj.getString("ISO_2");
+		    this.name = obj.getString("name");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public String GetName() {
+		// TODO Auto-generated method stub
+		return this.name;
+	}
+	public String GetISO() {
+		return this.iso2;
+	}
+	public int GetID() {
+		return this.id;
 	}
 }

@@ -21,8 +21,8 @@ public class Dictionary {
 		this.languages= lan;
 	}
 
-	private static void SetGetDictionariesPath(LoginData user) throws Exception {
-		dictPath = "http://" + Application.baseURL + "/dictionaries?session_token=" + user.GetSessionID();
+	private static void SetGetDictionariesPath(String baseURL, LoginData user) throws Exception {
+		Dictionary.dictPath = "http://" + baseURL + "/dictionaries?session_token=" + user.GetSessionID();
 	}
 	
 	private static ArrayList<Dictionary> GetDictionaries(JSONObject json) throws Exception{
@@ -44,8 +44,7 @@ public class Dictionary {
 	}
 	
 	public static ArrayList<Dictionary> GetDictionaries(LoginData user) throws Exception {
-		SetGetDictionariesPath(user);
-		Dictionary.SetGetDictionariesPath(user);
+		Dictionary.SetGetDictionariesPath(Application.baseURL, user);
 		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
 		HttpGet request = new HttpGet(Dictionary.dictPath);
@@ -72,5 +71,17 @@ public class Dictionary {
 	}
 	public String toString(){
 		return this.name;
+	}
+
+	public String GetName() {
+		return this.name;
+	}
+
+	public int GetID() {
+		return this.id;
+	}
+
+	public ArrayList<Language> GetLanguages() {
+		return this.languages;
 	}
 }

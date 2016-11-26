@@ -22,6 +22,7 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static final int PADDING = 30; // for example
 	private ArrayList<Dictionary> dictionaries;
+	private ArrayList<Entity> entities;
 
 	private JComboBox dictCBX;
 
@@ -67,7 +68,33 @@ public class MainFrame extends JFrame {
 		dictMenu.setLayout(new FlowLayout(FlowLayout.LEFT, PADDING, 5));
 
 		dictMenu.add(dictCBX);
-		dictMenu.add(new JButton("Info"));
+		JButton dictRetriveButton = new JButton("Load");
+		dictRetriveButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					entities=Entity.GetEntities(Application.user,(Dictionary) dictCBX.getSelectedItem());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});
+		dictMenu.add(dictRetriveButton);
+		
+		JButton dictInfoButton = new JButton("info");
+		dictInfoButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				DictInfoFrame dictInfo = new DictInfoFrame((Dictionary) dictCBX.getSelectedItem());
+				dictInfo.show(true);
+			}
+			
+		});
+		dictMenu.add(dictInfoButton);
 		container.add(dictMenu);
 		this.add(container);
 
