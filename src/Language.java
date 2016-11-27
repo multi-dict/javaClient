@@ -42,4 +42,8 @@ public class Language {
 	public int GetID() {
 		return this.id;
 	}
+	@Override
+	public String toString(){
+		return this.name;
+	}
 }

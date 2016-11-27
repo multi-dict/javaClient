@@ -23,7 +23,6 @@ public class LoginFrame extends JFrame {
 	private JPanel mainPanel;
 	private JButton loginButton;
 	private JButton cancelButton;
-	private LoginData loginData;
 
 	public LoginFrame(int errorCode) {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,6 +64,7 @@ public class LoginFrame extends JFrame {
 		//TODO remove from final version
 		this.passwordTextField.setText("test1234");
 		this.userNameTextField.setText("test");
+		setErrorLabel(errorCode);
 	}
 
 	public void setErrorLabel(int errorCode) {
@@ -98,8 +98,8 @@ public class LoginFrame extends JFrame {
 				case 200:
 					errorLabel.setForeground(Color.GREEN);
 					errorLabel.setText("Login success");
-					MainFrame mainWindow = new MainFrame();
-					mainWindow.show(true);
+					Application.mf = new MainFrame();
+					Application.mf.show(true);
 					dispose();
 					break;
 				default:
@@ -114,7 +114,6 @@ public class LoginFrame extends JFrame {
 	}
 	private class CancelButtonListener implements ActionListener {
 
-		@SuppressWarnings("deprecation")
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			System.exit(0);

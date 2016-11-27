@@ -10,7 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Entity {
+public class Entity  {
 	public static String entityPath;
 	private int id;
 	private ArrayList<Word> words;
@@ -21,13 +21,14 @@ public class Entity {
 	}
 
 	private static void SetEntityPath(String baseURL, LoginData user, Dictionary dict) {
-		Entity.entityPath = "http://" + baseURL + "/entities??session_token=" + user.GetSessionID() + "&dictionary_id=" + dict.GetID();
+		Entity.entityPath = "http://" + baseURL + "/entities?session_token=" + user.GetSessionID() + "&dictionary_id=" + dict.GetID();
 	}
 
 	public static ArrayList<Entity> GetEntities(LoginData user, Dictionary dict) throws Exception {
 		Entity.SetEntityPath(Application.baseURL, user, dict);
 		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
+		System.out.println(Entity.entityPath);
 		HttpGet request = new HttpGet(Entity.entityPath);
 		request.addHeader("content-type", "application/json");
 
@@ -51,7 +52,7 @@ public class Entity {
 
 	private static ArrayList<Entity> GetEntites(JSONObject jsonresult) throws JSONException {
 		ArrayList<Entity> result = new ArrayList<Entity>();
-		JSONArray entitiesArray = jsonresult.getJSONArray("entites");
+		JSONArray entitiesArray = jsonresult.getJSONArray("entities");
 		for (int i = 0; i < entitiesArray.length(); i++) {
 		    JSONObject row = entitiesArray.getJSONObject(i);
 		    int tempid = row.getInt("id");
@@ -60,5 +61,21 @@ public class Entity {
 		    result.add(new Entity(tempid, tempWords));
 		}
 		return result;
+	}
+	public Words GetWords(){
+		return new Words(this.words,this);
+	}
+	public static ArrayList<Entity> Filter(ArrayList<Entity> origin, String filter){
+		ArrayList<Entity> result = new ArrayList<Entity> ();
+		for(Entity e : origin){
+			if(e.GetWords().Contains(filter)){
+				result.add(e);
+			}
+		}
+		return result;
+	}
+
+	public int GetID() {
+		return this.id;
 	}
 }
